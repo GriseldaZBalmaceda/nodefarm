@@ -31,22 +31,27 @@ console.log('will read file')
 
 ///////////////////////////////////
 ///Creating a Server
-const data=fs.readFileSync(`${__dirname}/dev-data/data.json`,'utf-8',(err,data)=>{
-  });  
-  const dataObj=JSON.parse(data);
+const tempOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8')
+const tempProduct = fs.readFileSync(`${__dirname}/templates/template-product.html`, 'utf-8')
+const tempCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8')
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
 const server = http.createServer((req, res) => {
     console.log(req.url)
     const pathName = req.url;
     if (pathName === '/' || pathName === '/overview') {
-        res.end('This is the OVERVIEW')
+        res.writeHead(200, {
+            'Content-type': 'text/html'
+        })
+        res.end(tempOverview)
     } else if (pathName === '/product') {
         res.end('This is the PRODUCT')
     } else if (pathName === '/api') {
-            res.writeHead(200,{
-                'Content-type':'application/json'
-            })
-            res.end(data)
-  
+        res.writeHead(200, {
+            'Content-type': 'application/json'
+        })
+        res.end(data)
+
 
         console.log('API')
     } else {
